@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: location-api-deployment
+  labels:
+    app: location-api
+spec:
+  selector:
+    matchLabels:
+      app: location-api
+  template:
+    metadata:
+      labels:
+        app: form-api
+    spec:
+      containers:
+      - name: form-api
+        image: registry.gitlab.com/gleisin/engsoluc/form-api
+        ports:
+        - containerPort: 80
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: legacy-mysql
+              key: db_host
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: legacy-mysql
+              key: db_port
+        - name: DB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: legacy-mysql
+              key: db_name
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: legacy-mysql
+              key: db_username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: legacy-mysql
+              key: db_password
+
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: digitalocean-spaces-credentials
+              key: do_key
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: digitalocean-spaces-credentials
+              key: do_secret
+        - name: AWS_DEFAULT_REGION
+          valueFrom:
+            secretKeyRef:
+              name: digitalocean-spaces-credentials
+              key: do_region
+        - name: AWS_DEFAULT_ENDPOINT
+          valueFrom:
+            secretKeyRef:
+              name: digitalocean-spaces-credentials
+              key: do_endpoint
+
+        - name: AWS_COMMON_BUCKET
+          valueFrom:
+            secretKeyRef:
+              name: digitalocean-spaces-credentials
+              key: do_common_bucket
+
+        - name: GOOGLE_TOKEN
+          value: 'AIzaSyBU6e-5U4V7MM-Y8JoNYJsXnSDo1pd1MqQ'
+
+      imagePullSecrets:
+      - name: regcred-gitlab
