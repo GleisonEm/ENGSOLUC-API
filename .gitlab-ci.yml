@@ -1,0 +1,78 @@
+stages:
+  - setup
+  - test
+  - build-canary
+  - release-canary
+  - build-production
+  - release-production
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - vendor/
+
+setup:
+  image: lissonpsantos2/php:7.3.18-minimum-laravel
+  stage: setup
+  script:
+    - curl -sS https://getcomposer.org/installer | php
+    - php composer.phar install
+  only:
+    - tags
+    - master
+    - merge_requests
+
+# test:
+#   image: lissonpsantos2/php:7.3.18-minimum-laravel
+#   stage: test
+#   script:
+#     - php vendor/bin/phpunit --coverage-text --colors=never
+#   only:
+#     - tags
+#     - master
+#     - merge_requests
+
+build-canary:
+  image: docker:stable
+  stage: build-canary
+  services:
+    - docker:19.03.1-dind
+  before_script:
+    - docker login registry.gitlab.com -u ${CI_REGISTY_USER} -p ${CI_REGISTY_PASSWD}
+  script:
+    - ls vendor
+    - docker build --pull --build-arg SLACK_URL=${SLACK_CANARY_CHANNEL} -t ${CI_IMAGE}:${CI_COMMIT_SHORT_SHA} .
+    - docker push ${CI_IMAGE}:${CI_COMMIT_SHORT_SHA}
+  only:
+    - master
+
+release-canary:
+  image: dtzar/helm-kubectl
+  stage: release-canary
+  script:
+    - kubectl config use-context ${CANARY_USER}
+    - kubectl set image deployment/${CI_DEPLOYMENT} ${CI_APP_NAME}=${CI_IMAGE}:${CI_COMMIT_SHORT_SHA} --record
+  only:
+    - master
+
+build-production:
+  image: docker:stable
+  stage: build-production
+  services:
+    - docker:19.03.1-dind
+  before_script:
+    - docker login registry.gitlab.com -u ${CI_REGISTY_USER} -p ${CI_REGISTY_PASSWD}
+  script:
+    - docker build --pull --build-arg SLACK_URL=${SLACK_PRODUCTION_CHANNEL} -t ${CI_IMAGE}:${CI_COMMIT_TAG} .
+    - docker push ${CI_IMAGE}:${CI_COMMIT_TAG}
+  only:
+    - tags
+
+release-production:
+  image: dtzar/helm-kubectl
+  stage: release-production
+  script:
+    - kubectl config use-context ${PRODUCTION_USER}
+    - kubectl set image deployment/${CI_DEPLOYMENT} ${CI_APP_NAME}=${CI_IMAGE}:${CI_COMMIT_TAG} --record
+  only:
+    - tags
