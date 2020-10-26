@@ -54,6 +54,11 @@ class FormController extends Controller
         
         foreach ($form['q5'] as $q5) {
 
+            
+            if ($q5 == 8) {
+                continue;
+            }
+
             if ($q5 == 1) {
                 $points_covid = $points_covid + 200;
                 continue;
@@ -126,13 +131,13 @@ class FormController extends Controller
         // // Log::info(json_encode($request->form));
 
         switch (true) {
-            case $points_covid <= 5000:
+            case $points_covid <= 5000 && $points_covid >= 4000:
                 $alert = 'ALTO';
                 break;
             case $points_covid > 5000:
                 $alert = 'MUITO ALTO';
                 break;
-            case $points_covid <= 4000:
+            case $points_covid <= 4000 && $points_covid >= 2000:
                 $alert = 'MODERADO';
                 break;
             case $points_covid <= 2000:
@@ -164,6 +169,7 @@ class FormController extends Controller
 
 
         return response([
+            'points_covid' => $points_covid,
             'resume' => $alert,
             'message' => 'Respostas enviadas com sucesso!'
         ], 200);
