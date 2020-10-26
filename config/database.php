@@ -20,13 +20,13 @@ return [
 			'prefix_indexes' => true,
 			'strict' => false,
 		],
-		'mongodb-merchant' => [
+		'mongodb-mongo' => [
 			'driver' => 'mongodb',
-			'host' => env('DB_MERCHANT_HOST', '127.0.0.1'),
-			'port' => env('DB_MERCHANT_PORT', 27017),
-			'database' => env('DB_MERCHANT_DATABASE', 'homestead'),
-			'username' => env('DB_MERCHANT_USERNAME', 'homestead'),
-			'password' => env('DB_MERCHANT_PASSWORD', 'secret'),
+			'host' => env('DB_MONGO_HOST', '127.0.0.1'),
+			'port' => env('DB_MONGO_PORT', 27017),
+			'database' => env('DB_MONGO_DATABASE', 'homestead'),
+			'username' => env('DB_MONGO_USERNAME', 'homestead'),
+			'password' => env('DB_MONGO_PASSWORD', 'secret'),
 			'options' => [
 				'database' => 'admin',
 			],
