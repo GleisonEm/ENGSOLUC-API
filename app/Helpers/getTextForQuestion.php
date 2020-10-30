@@ -50,9 +50,9 @@ if (!function_exists('get_text_question')) {
 	
 			if (!array_key_exists($response_num[2], $available_response)) {
 				$question_three_text = $response_num[2];
-			}
-	
-			$question_three_text = $available_response[$response_num[2]];
+            }
+            
+            $question_three_text = $available_response[$response_num[2]];
         }
         
         if ($question[3] == 4) {
