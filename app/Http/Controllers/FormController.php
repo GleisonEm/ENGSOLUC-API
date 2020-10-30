@@ -5,10 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Mysql\Form;
 use Illuminate\Http\Request;
 use Log;
+use App\Http\Resources\FormsResource  as FormResource;
 
 class FormController extends Controller
 {   
     protected $point = 40000;
+
+    public function index(Request $request)
+    {   
+
+        $forms = Form::all();
+
+        return response([
+            'forms' => FormResource::collection($forms)
+        ], 200);
+    }
 
     public function create(Request $request) 
     {   
