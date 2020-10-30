@@ -19,4 +19,5 @@ $router->get('/', function () {
 
 $router->group(['prefix' => 'api/v1'], function () use ($router) {
 	$router->post('/generate/form', 'FormController@create');
+	$router->get('/forms', 'FormController@index');
 });
