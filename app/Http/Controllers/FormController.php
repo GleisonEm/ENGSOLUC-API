@@ -8,11 +8,11 @@ use Log;
 use App\Http\Resources\FormsResource  as FormResource;
 
 class FormController extends Controller
-{   
+{
     protected $point = 40000;
 
     public function index(Request $request)
-    {   
+    {
 
         $forms = Form::all();
 
@@ -21,15 +21,13 @@ class FormController extends Controller
         ], 200);
     }
 
-    public function create(Request $request) 
-    {   
+    public function create(Request $request)
+    {
 
         $form = $request->form;
-        
+
         $points_covid = 0;
         $alert = '';
-        Log::info($request->form);
-        // Log::info($form->q2);
         switch ($form['q2']) {
             case 1:
                 $points_covid = 0;
@@ -41,7 +39,7 @@ class FormController extends Controller
                 $points_covid = $points_covid + 20;
                 break;
         }
-        
+
         switch ($form['q3']) {
             case 1:
                 $points_covid = $points_covid + 0;
@@ -50,7 +48,7 @@ class FormController extends Controller
                 $points_covid = $points_covid + 40;
                 break;
         }
-      
+
         switch ($form['q4']) {
             case 1:
                 $points_covid = $points_covid + 5000;
@@ -62,10 +60,10 @@ class FormController extends Controller
                 $points_covid = $points_covid + 20;
                 break;
         }
-        
+
         foreach ($form['q5'] as $q5) {
 
-            
+
             if ($q5 == 8) {
                 continue;
             }
@@ -105,7 +103,7 @@ class FormController extends Controller
                 continue;
             }
         }
-       
+
         switch ($form['q6']) {
             case 1:
                 $points_covid = $points_covid + 100;
@@ -117,7 +115,7 @@ class FormController extends Controller
                 $points_covid = $points_covid + 10;
                 break;
         }
-        
+
         // $response_ready_translate[0] = $form->q1;
         // $response_ready_translate[1] = $form->q2;
         // $response_ready_translate[2] = $form->q3;
@@ -125,7 +123,7 @@ class FormController extends Controller
         // $response_ready_translate[4] = $form->q5;
         // $response_ready_translate[5] = $form->q6;
         // $response_ready_translate[6] = $form->term;
-        
+
         // $question[0] = 1;
         // $question[1] = 2;
         // $question[2] = 3;
@@ -155,7 +153,7 @@ class FormController extends Controller
                 $alert = 'BAIXO';
                 break;
         }
-    
+
         $register_form = Form::create([
             'name' => $form['name'],
             'email' => $form['email'],
@@ -173,6 +171,8 @@ class FormController extends Controller
             'qsix_response' => $form['q6'],
             'qseven_enunciated' => get_enunciated_question('q7'),
             'qseven_response' => $form['term'],
+            'alert_text' => $alert,
+            'points_covid' => $points_covid,
         ]);
 
         $register_form->save();

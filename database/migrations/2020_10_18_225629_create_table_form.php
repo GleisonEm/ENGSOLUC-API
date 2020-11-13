@@ -31,6 +31,8 @@ class CreateTableForm extends Migration
             $table->string('qsix_response');
             $table->string('qseven_enunciated');
             $table->string('qseven_response');
+            $table->string('alert_text');
+            $table->float('points_covid');
             $table->timestamps();
         });
     }

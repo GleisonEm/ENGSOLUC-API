@@ -14,7 +14,7 @@ class FormsResource extends JsonResource
      * @return array
      */
     public function toArray($request)
-    {   
+    {
         $response_ready_translate[0] = $this->qone_response;
         $response_ready_translate[1] = $this->qtwo_response;
         $response_ready_translate[2] = $this->qthree_response;
@@ -22,7 +22,7 @@ class FormsResource extends JsonResource
         $response_ready_translate[4] = json_decode($this->qfive_response, true);
         $response_ready_translate[5] = $this->qsix_response;
         $response_ready_translate[6] = $this->qseven_response;
-        
+
         $question[0] = 1;
         $question[1] = 2;
         $question[2] = 3;
@@ -43,6 +43,8 @@ class FormsResource extends JsonResource
             'qfive_response' => $var[4],
             'qsix_response' => $var[5],
             'qseven_response' => $var[6],
+            'alert_text' => $this->alert_text,
+            'points_covid' => $this->points_covid,
             'created_at' => $date->isoFormat('MMMM Do YYYY, h:mm:ss a'),
         ];
     }
