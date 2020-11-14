@@ -140,7 +140,7 @@ class FormController extends Controller
         // // Log::info(json_encode($request->form));
 
         switch (true) {
-            case $points_covid <= 3200 && $points_covid >= 2200:
+            case $points_covid <= 2200 && $points_covid >= 3200:
                 $alert = 'ALTO';
                 break;
             case $points_covid > 3200:
