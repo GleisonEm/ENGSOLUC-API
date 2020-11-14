@@ -33,31 +33,31 @@ class FormController extends Controller
                 $points_covid = 0;
                 break;
             case 2:
-                $points_covid = $points_covid + 10;
+                $points_covid = $points_covid + 100;
                 break;
             case 3:
-                $points_covid = $points_covid + 20;
+                $points_covid = $points_covid + 200;
                 break;
         }
 
         switch ($form['q3']) {
             case 1:
-                $points_covid = $points_covid + 0;
+                $points_covid = $points_covid + 500;
                 break;
             case 2:
-                $points_covid = $points_covid + 40;
+                $points_covid = $points_covid + 0;
                 break;
         }
 
         switch ($form['q4']) {
             case 1:
-                $points_covid = $points_covid + 5000;
+                $points_covid = $points_covid + 1000;
                 break;
             case 2:
                 $points_covid = $points_covid + 0;
                 break;
             case 3:
-                $points_covid = $points_covid + 20;
+                $points_covid = $points_covid + 200;
                 break;
         }
 
@@ -69,12 +69,12 @@ class FormController extends Controller
             }
 
             if ($q5 == 1) {
-                $points_covid = $points_covid + 200;
+                $points_covid = $points_covid + 400;
                 continue;
             }
 
             if ($q5 == 2) {
-                $points_covid = $points_covid + 500;
+                $points_covid = $points_covid + 200;
                 continue;
             }
 
@@ -84,12 +84,12 @@ class FormController extends Controller
             }
 
             if ($q5 == 4) {
-                $points_covid = $points_covid + 500;
+                $points_covid = $points_covid + 200;
                 continue;
             }
 
             if ($q5 == 5) {
-                $points_covid = $points_covid + 200;
+                $points_covid = $points_covid + 50;
                 continue;
             }
 
@@ -99,20 +99,20 @@ class FormController extends Controller
             }
 
             if ($q5 == 7) {
-                $points_covid = $points_covid + 800;
+                $points_covid = $points_covid + 1000;
                 continue;
             }
         }
 
         switch ($form['q6']) {
             case 1:
-                $points_covid = $points_covid + 100;
+                $points_covid = $points_covid + 300;
                 break;
             case 2:
                 $points_covid = $points_covid + 0;
                 break;
             case 3:
-                $points_covid = $points_covid + 10;
+                $points_covid = $points_covid + 100;
                 break;
         }
 
@@ -140,16 +140,16 @@ class FormController extends Controller
         // // Log::info(json_encode($request->form));
 
         switch (true) {
-            case $points_covid <= 5000 && $points_covid >= 4000:
+            case $points_covid <= 3200 && $points_covid >= 2200:
                 $alert = 'ALTO';
                 break;
-            case $points_covid > 5000:
+            case $points_covid > 3200:
                 $alert = 'MUITO ALTO';
                 break;
-            case $points_covid <= 4000 && $points_covid >= 2000:
+            case $points_covid <= 2100 && $points_covid >= 1300:
                 $alert = 'MODERADO';
                 break;
-            case $points_covid <= 2000:
+            case $points_covid <= 1250:
                 $alert = 'BAIXO';
                 break;
         }
